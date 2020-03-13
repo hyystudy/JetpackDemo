@@ -2,4 +2,6 @@
     <string name="app_name">JetpackDemo</string>
     <string name="my_garden_title">My garden</string>
     <string name="plant_list_title">Plant list</string>
+    <string name="plant_item_image">Plant Picture</string>
+    <string name="plant_detail_title">Plant Detail</string>
 </resources>
