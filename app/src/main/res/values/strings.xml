@@ -4,4 +4,11 @@
     <string name="plant_list_title">Plant list</string>
     <string name="plant_item_image">Plant Picture</string>
     <string name="plant_detail_title">Plant Detail</string>
+    <string name="menu_item_share_plant">Share</string>
+    <string name="watering_needs_prefix">Watering needs</string>
+
+    <plurals name="watering_needs_suffix">
+        <item quantity="one">every day</item>
+        <item quantity="other">every %d days</item>
+    </plurals>
 </resources>

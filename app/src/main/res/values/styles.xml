@@ -11,6 +11,13 @@
         <item name="colorSurface">@color/sunflower_gray_50</item>
         <item name="colorSecondary">@color/sunflower_yellow_500</item>
         <item name="android:colorBackground">@color/sunflower_green_500</item>
+
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+    
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Theme.Sunflower.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>

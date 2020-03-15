@@ -11,9 +11,9 @@ class PlantDetailViewModel(
 
     //get plant from database by plantId
     //rxjava
-    val plant = plantRepository.getPlantById(plantId)
+//    val plant = plantRepository.getPlantById(plantId)
 
     //rxJava
-    val plantLiveData = plantRepository.getPlantByIdLiveData(plantId)
+    val plant = plantRepository.getPlantByIdLiveData(plantId)
 
 }

@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
     app:startDestination="@id/mainViewPagerFragment">
 
     <fragment
         android:id="@+id/mainViewPagerFragment"
         android:name="com.example.jetpackdemo.MainViewPagerFragment"
-        android:label="MainViewPagerFragment" >
+        android:label="MainViewPagerFragment"
+        tools:layout="@layout/fragment_main_viewpager_layout">
         <action
             android:id="@+id/action_mainViewPagerFragment_to_plantDetailFragment"
             app:destination="@id/plantDetailFragment"
@@ -19,7 +22,8 @@
     <fragment
         android:id="@+id/plantDetailFragment"
         android:name="com.example.jetpackdemo.PlantDetailFragment"
-        android:label="@string/plant_detail_title" >
+        android:label="@string/plant_detail_title"
+        tools:layout="@layout/fragment_plant_detail_layout">
 
         <argument android:name="plantId"
             app:argType="string"/>

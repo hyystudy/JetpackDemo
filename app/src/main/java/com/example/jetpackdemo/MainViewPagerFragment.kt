@@ -9,20 +9,20 @@ import androidx.fragment.app.Fragment
 import com.example.jetpackdemo.adapter.GARDEN_PAGE_INDEX
 import com.example.jetpackdemo.adapter.HomePagerAdapter
 import com.example.jetpackdemo.adapter.PLANT_LIST_PAGE_INDEX
-import com.example.jetpackdemo.databinding.FragmentMainBottonLayoutBinding
+import com.example.jetpackdemo.databinding.FragmentMainViewpagerLayoutBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import java.lang.IndexOutOfBoundsException
 
 class MainViewPagerFragment : Fragment() {
 
-    private lateinit var binding: FragmentMainBottonLayoutBinding
+    private lateinit var binding: FragmentMainViewpagerLayoutBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMainBottonLayoutBinding.inflate(inflater, container, false)
+        binding = FragmentMainViewpagerLayoutBinding.inflate(inflater, container, false)
         initView()
         return binding.root
     }
