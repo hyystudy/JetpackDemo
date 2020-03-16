@@ -7,18 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkInfo
-import androidx.work.WorkManager
 import com.example.jetpackdemo.adapter.PlantListAdapter
-import com.example.jetpackdemo.database.AppDataBase
 import com.example.jetpackdemo.databinding.FragmentPlantListLayoutBinding
-import com.example.jetpackdemo.utilities.InjectorUtil
+import com.example.jetpackdemo.utilities.RepositoryProvider
 import com.example.jetpackdemo.viewmodels.PlantListViewModel
-import com.example.jetpackdemo.workers.SeedDatabaseWorker
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class PlantListFragment : Fragment() {
 
@@ -26,7 +19,7 @@ class PlantListFragment : Fragment() {
     private lateinit var binding: FragmentPlantListLayoutBinding
 
     private val plantListViewModel: PlantListViewModel by viewModels {
-        InjectorUtil.getPlantListViewModel(this)
+        RepositoryProvider.getPlantListViewModel(this)
     }
 
     override fun onCreateView(
@@ -75,11 +68,20 @@ class PlantListFragment : Fragment() {
 //                Log.d(TAG, "plant size is ---> ${it.size}")
 //                plantListAdapter.submitList(it)
 //            }
+            //初始化数据库 plants
+            plantListViewModel.getPlantsData()
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext {
+                Log.d(TAG, "database plants changed plants size is ${it.size}")
+                plantListAdapter.submitList(it)
+            }
+            .subscribe()
+            plantListViewModel.getPlantListByDataBase()
 
-        plantListViewModel.getPlantsByDatabase2().observe(viewLifecycleOwner, Observer { plants ->
-            Log.d(TAG, "plant size is ---> ${plants.size}")
-            plantListAdapter.submitList(plants)
-        })
+//        plantListViewModel.getPlantsByDatabase2().observe(viewLifecycleOwner, Observer { plants ->
+//            Log.d(TAG, "plant size is ---> ${plants.size}")
+//            plantListAdapter.submitList(plants)
+//        })
     }
 
 

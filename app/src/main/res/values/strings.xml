@@ -11,4 +11,7 @@
         <item quantity="one">every day</item>
         <item quantity="other">every %d days</item>
     </plurals>
+
+    <string name="share_text_plant">Check out the %s plant in the Android Sunflower app</string>
+
 </resources>

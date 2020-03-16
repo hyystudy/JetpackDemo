@@ -8,7 +8,7 @@ import com.example.jetpackdemo.viewmodels.PlantDetailViewModel
 import com.example.jetpackdemo.viewmodels.PlantDetailViewModelFactory
 import com.example.jetpackdemo.viewmodels.PlantListViewModelFactory
 
-object InjectorUtil {
+object RepositoryProvider {
 
     private fun getPlantRepository(context: Context): PlantRepository {
         return PlantRepository.getInstance(

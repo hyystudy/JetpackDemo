@@ -1,6 +1,9 @@
 package com.example.jetpackdemo.database.repository
 
+import android.util.Log
 import com.example.jetpackdemo.database.dao.PlantDao
+import com.example.jetpackdemo.database.entity.Plant
+import io.reactivex.Flowable
 
 /**
  * Repository module for handling data operations.
@@ -9,7 +12,10 @@ import com.example.jetpackdemo.database.dao.PlantDao
 class PlantRepository private constructor(private val plantDao: PlantDao) {
 
     //rxjava2 模式
-    fun getPlantList() = plantDao.getPlants()
+    fun getPlantList(): Flowable<List<Plant>> {
+        Log.d("PlantRepository", "getPlantList")
+        return  plantDao.getPlants()
+    }
 
     fun getPlantById(plantId: String) = plantDao.getPlantById(plantId)
 
