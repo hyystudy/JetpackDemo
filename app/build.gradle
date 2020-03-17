@@ -17,6 +17,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        //room table.json file position
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [
