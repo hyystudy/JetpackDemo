@@ -9,6 +9,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.example.jetpackdemo.database.dao.GardenPlantDao
 import com.example.jetpackdemo.database.dao.PlantDao
 import com.example.jetpackdemo.database.entity.GardenPlant
 import com.example.jetpackdemo.database.entity.Plant
@@ -21,11 +22,19 @@ abstract class AppDataBase : RoomDatabase() {
 
     abstract fun getPlantDao(): PlantDao
 
+    abstract fun getGardenPlantDao(): GardenPlantDao
+
     companion object {
         val TAG = AppDataBase::class.java.simpleName
         @Volatile
         private var instance: AppDataBase? = null
 
+        //app database 在升级的时候可以通过如下方式获取sql语句:
+        //1.创建新的 Entity 实体类
+        //2.添加到 Database的entities中 将 exportSchema置为true
+        //3.运行项目
+        //4.寻找项目根目录中的schemas文件夹中的.json文件
+        //5.查找对应的sql语句
         private val migration_1_2 = object : Migration(1,2){
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("CREATE TABLE IF NOT EXISTS `garden_plants` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `plant_id` TEXT NOT NULL, FOREIGN KEY(`plant_id`) REFERENCES `plants`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )")

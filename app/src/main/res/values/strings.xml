@@ -13,5 +13,7 @@
     </plurals>
 
     <string name="share_text_plant">Check out the %s plant in the Android Sunflower app</string>
+    <string name="garden_no_plant">Your garden is empty</string>
+    <string name="add_plant">Add plant</string>
 
 </resources>

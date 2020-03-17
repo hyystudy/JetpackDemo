@@ -13,6 +13,10 @@
             name="viewModel"
             type="com.example.jetpackdemo.viewmodels.PlantDetailViewModel" />
 
+        <variable
+            name="callback"
+            type="com.example.jetpackdemo.PlantDetailFragment.Callback" />
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -150,15 +154,17 @@
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/tab"
+            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_anchor="@id/appbar_layout"
             app:layout_anchorGravity="end|bottom"
             android:layout_margin="@dimen/margin_normal"
             android:src="@drawable/ic_plus"
+            android:onClick="@{() -> callback.onFabClick(viewModel.plant)}"
             style="@style/Widget.MaterialComponents.FloatingActionButton"
             android:tint="@android:color/white"
+            app:isGone="@{viewModel.isPlanted}"
             app:shapeAppearance="@style/ShapeAppearance.Sunflower.FAB" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

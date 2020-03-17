@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ShareCompat
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
@@ -13,9 +14,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.jetpackdemo.database.entity.Plant
 import com.example.jetpackdemo.databinding.FragmentPlantDetailLayoutBinding
 import com.example.jetpackdemo.utilities.RepositoryProvider
 import com.example.jetpackdemo.viewmodels.PlantDetailViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_plant_detail_layout.*
 
 class PlantDetailFragment : Fragment() {
@@ -55,6 +59,7 @@ class PlantDetailFragment : Fragment() {
             view.findNavController().navigateUp()
         }
 
+        //toolbar menu
         binding.toolbar.setOnMenuItemClickListener {
             when(it.itemId) {
                 R.id.action_share -> {
@@ -67,6 +72,16 @@ class PlantDetailFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
+        binding.callback = object : Callback{
+            override fun onFabClick(plant: Plant?) {
+                plant?.let {
+                    hideFab(binding.fab)
+                    plantDetailViewModel.addPlantToGarden()
+                    Snackbar.make(binding.root, "Add Plant to Garden", Snackbar.LENGTH_LONG).show()
+                }
+
+            }
+        }
 
         var isToolbarShown = false
         //设置何时显示toolbar title
@@ -101,6 +116,13 @@ class PlantDetailFragment : Fragment() {
 //            }.subscribe()
     }
 
+    private fun hideFab(fab: FloatingActionButton) {
+        val layoutParams = fab.layoutParams as CoordinatorLayout.LayoutParams
+        val behavior = layoutParams.behavior as FloatingActionButton.Behavior
+        behavior.isAutoHideEnabled = false
+        fab.hide()
+    }
+
     //share action
     private fun createShareIntent() {
 
@@ -121,6 +143,10 @@ class PlantDetailFragment : Fragment() {
         startActivity(shareIntent)
     }
 
+
+    interface Callback {
+        fun onFabClick(plant: Plant?)
+    }
 
     companion object {
         val TAG = PlantDetailFragment::class.java.simpleName
