@@ -16,7 +16,7 @@ interface PlantDao {
     fun getPlants(): Flowable<List<Plant>>
 
     @Query("SELECT * FROM plants ORDER BY name")
-    fun getPlantsLiveData(): LiveData<List<Plant>>
+    fun getPlantsLiveData(): List<Plant>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllPlants(plants: List<Plant>)

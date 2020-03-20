@@ -2,7 +2,9 @@ package com.example.jetpackdemo.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.jetpackdemo.database.entity.Plant
 import com.example.jetpackdemo.database.repository.PlantRepository
 import io.reactivex.Flowable
@@ -11,6 +13,10 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
 //构造参数中的plantListRepository 是数据处理类
@@ -44,9 +50,15 @@ class PlantListViewModel(private val plantRepository: PlantRepository) : ViewMod
     fun getPlantsData(): Observable<List<Plant>> = plantListSubject.hide()
 
     //使用LiveData
-    private val allPlants: LiveData<List<Plant>> by lazy {
-        plantRepository.getPlantList2()
+    fun getPlantListByLiveData() {
+        viewModelScope.launch {
+            val data = withContext(Dispatchers.IO) {
+                plantRepository.getPlantList2()
+            }
+            plants.value = data
+        }
     }
 
-    fun getPlantsByDatabase2(): LiveData<List<Plant>> = allPlants
+    val plants: MutableLiveData<List<Plant>> = MutableLiveData()
+
 }

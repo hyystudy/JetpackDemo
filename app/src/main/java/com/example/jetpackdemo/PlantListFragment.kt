@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.example.jetpackdemo.adapter.PlantListAdapter
 import com.example.jetpackdemo.databinding.FragmentPlantListLayoutBinding
 import com.example.jetpackdemo.utilities.RepositoryProvider
@@ -68,20 +69,39 @@ class PlantListFragment : Fragment() {
 //                Log.d(TAG, "plant size is ---> ${it.size}")
 //                plantListAdapter.submitList(it)
 //            }
-            //初始化数据库 plants
-            plantListViewModel.getPlantsData()
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext {
-                Log.d(TAG, "database plants changed plants size is ${it.size}")
-                plantListAdapter.submitList(it)
+        //注册观察者
+//            plantListViewModel.getPlantsData()
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .doOnNext {
+//                Log.d(TAG, "database plants changed plants size is ${it.size}")
+//                plantListAdapter.submitList(it)
+//            }
+//            .subscribe()
+//            //获取数据
+//            plantListViewModel.getPlantListByDataBase()
+
+        //liveData
+        //注册观察者
+        plantListViewModel.plants.observe(viewLifecycleOwner, Observer { plants ->
+            if (plants.isNullOrEmpty()) {
+                Log.d(TAG, "plants is empty")
+                return@Observer
             }
-            .subscribe()
-            plantListViewModel.getPlantListByDataBase()
+            Log.d(TAG, "plant size is ---> ${plants.size}")
+            plantListAdapter.submitList(plants)
+        })
+        //异步获取数据
+        plantListViewModel.getPlantListByLiveData()
 
 //        plantListViewModel.getPlantsByDatabase2().observe(viewLifecycleOwner, Observer { plants ->
 //            Log.d(TAG, "plant size is ---> ${plants.size}")
 //            plantListAdapter.submitList(plants)
 //        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 
 
