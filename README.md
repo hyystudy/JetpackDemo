@@ -1,14 +1,6 @@
 #### 概览
 
-​		这是一个Jetpack入门Demo, 里面用到的基本都是Jetpack的一些组件 如 DataBinding   ViewModel  LiveData  。。。等，整体是根据Jetpack
-
-[官方文档](https://developer.android.com/jetpack)
-
-以及 官方给的一个
-
-[Demo](https://github.com/android/sunflower)
-
-作为参考以及学习入门，一步一步将多个Jepack组件结合起来。
+​		这是一个Jetpack入门Demo, 里面用到的基本都是Jetpack的一些组件 如 DataBinding   ViewModel  LiveData  。。。等，整体是根据Jetpack[官方文档](https://developer.android.com/jetpack)以及 官方给的一个[Demo](https://github.com/android/sunflower)作为参考以及学习入门，一步一步将多个Jepack组件结合起来。
 
 #### 整体架构图
 
