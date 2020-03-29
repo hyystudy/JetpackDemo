@@ -12,7 +12,7 @@
 
 #### 整体架构图
 
-![[https://github.com/hyystudy/JetpackDemo/blob/master/images/jetpack%E6%9E%B6%E6%9E%84%E5%9B%BE.png](https://github.com/hyystudy/JetpackDemo/blob/master/images/jetpack架构图.png)]()
+![image](https://github.com/hyystudy/JetpackDemo/raw/master/images/jetpack_architecture.png)
 
 简单描述下各个模块的职责：
 
