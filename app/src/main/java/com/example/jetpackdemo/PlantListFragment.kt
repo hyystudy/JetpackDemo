@@ -82,16 +82,16 @@ class PlantListFragment : Fragment() {
 
         //liveData
         //注册观察者
-        plantListViewModel.plants.observe(viewLifecycleOwner, Observer { plants ->
-            if (plants.isNullOrEmpty()) {
-                Log.d(TAG, "plants is empty")
-                return@Observer
+        plantListViewModel.plants.observe(
+            viewLifecycleOwner, Observer { plants ->
+                if (plants.isNullOrEmpty()) {
+                    return@Observer
+                }
+                plantListAdapter.submitList(plants)
             }
-            Log.d(TAG, "plant size is ---> ${plants.size}")
-            plantListAdapter.submitList(plants)
-        })
+        )
         //异步获取数据
-        plantListViewModel.getPlantListByLiveData()
+        //plantListViewModel.getPlantListByLiveData()
 
 //        plantListViewModel.getPlantsByDatabase2().observe(viewLifecycleOwner, Observer { plants ->
 //            Log.d(TAG, "plant size is ---> ${plants.size}")

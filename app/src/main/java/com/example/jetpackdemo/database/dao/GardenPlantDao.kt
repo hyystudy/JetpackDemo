@@ -6,6 +6,9 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.example.jetpackdemo.database.entity.GardenPlant
 import com.example.jetpackdemo.database.entity.PlantAndGardenPlantings
+import io.reactivex.Flowable
+import io.reactivex.Observable
+import io.reactivex.Single
 
 @Dao
 interface GardenPlantDao {
@@ -15,6 +18,12 @@ interface GardenPlantDao {
 
     @Query("SELECT * FROM plants WHERE id IN(SELECT  DISTINCT(plant_id) FROM garden_plants)")
     fun getPlantedGardenPlants(): LiveData<List<PlantAndGardenPlantings>>
+
+    @Query("SELECT * FROM plants WHERE id IN(SELECT  DISTINCT(plant_id) FROM garden_plants)")
+    fun getPlantedGardenPlantsSingle(): Single<List<PlantAndGardenPlantings>>
+
+    @Query("SELECT * FROM plants WHERE id IN(SELECT  DISTINCT(plant_id) FROM garden_plants)")
+    fun getPlantedGardenPlantsFlowable(): Flowable<List<PlantAndGardenPlantings>>
 
     @Query("SELECT EXISTS(SELECT 1 FROM garden_plants WHERE plant_id = :plantId LIMIT 1)")
     fun isPlanted(plantId: String): LiveData<Boolean>

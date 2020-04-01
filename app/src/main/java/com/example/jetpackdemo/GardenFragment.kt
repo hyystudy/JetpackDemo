@@ -7,18 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.example.jetpackdemo.adapter.GardenPlantListAdapter
 import com.example.jetpackdemo.adapter.PLANT_LIST_PAGE_INDEX
-import com.example.jetpackdemo.database.entity.PlantAndGardenPlantings
 import com.example.jetpackdemo.databinding.FragmentGardenLayoutBinding
 import com.example.jetpackdemo.utilities.RepositoryProvider
 import com.example.jetpackdemo.viewmodels.GardenPlantViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 
 class GardenFragment : Fragment() {
 
-    private lateinit var binding: FragmentGardenLayoutBinding
+    private lateinit var mBinding: FragmentGardenLayoutBinding
+    private val mDisposable = CompositeDisposable()
+
+    private val mGardenPlantListAdapter by lazy {
+        GardenPlantListAdapter()
+    }
 
     private val gardenPlantViewModel by viewModels<GardenPlantViewModel> {
         RepositoryProvider.getGardenPlantViewModelFactory(requireContext())
@@ -29,19 +34,25 @@ class GardenFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentGardenLayoutBinding.inflate(layoutInflater, container, false)
-        initView()
-        return binding.root
+        mBinding = FragmentGardenLayoutBinding.inflate(layoutInflater, container, false)
+
+        return mBinding.root
     }
 
-    private fun initView() {
-        val gardenPlantListAdapter = GardenPlantListAdapter()
-        binding.rvGardenList.adapter = gardenPlantListAdapter
 
-        binding.addPlant.setOnClickListener {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "onViewCreated")
+        initView()
+        ensureSubscribe()
+    }
+    private fun initView() {
+
+        mBinding.rvGardenList.adapter = mGardenPlantListAdapter
+
+        mBinding.addPlant.setOnClickListener {
             navigateToPlantList()
         }
-        subscribeUi(gardenPlantListAdapter)
 
     }
 
@@ -50,13 +61,29 @@ class GardenFragment : Fragment() {
             PLANT_LIST_PAGE_INDEX
     }
 
-    private fun subscribeUi(adapter: GardenPlantListAdapter) {
-        gardenPlantViewModel.getGardenPlants().observe(viewLifecycleOwner,
-            Observer { list ->
-                binding.hasPlants = !list.isNullOrEmpty()
-                Log.d(TAG, "has plants ---> ${binding.hasPlants}")
-                adapter.submitList(list)
-            })
+    private fun ensureSubscribe() {
+//        gardenPlantViewModel.getGardenPlants().observe(viewLifecycleOwner,
+//            Observer { list ->
+//                binding.hasPlants = !list.isNullOrEmpty()
+//                Log.d(TAG, "has plants ---> ${binding.hasPlants}")
+//                adapter.submitList(list)
+//            })
+
+        val subscribeGardenPlants = gardenPlantViewModel.subScribeGardenPlants()
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext{
+                Log.d("GardenPlantViewModel", "data updated")
+                mBinding.hasPlants = !it.isNullOrEmpty()
+                mGardenPlantListAdapter.submitList(it)
+            }
+            .subscribe()
+        mDisposable.addAll(subscribeGardenPlants)
+    }
+
+    override fun onDestroyView() {
+        Log.d(TAG, "onDestroyView")
+        mDisposable.clear()
+        super.onDestroyView()
     }
 
     companion object {

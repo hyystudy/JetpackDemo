@@ -13,7 +13,6 @@ class PlantRepository private constructor(private val plantDao: PlantDao) {
 
     //rxjava2 模式
     fun getPlantList(): Flowable<List<Plant>> {
-        Log.d("PlantRepository", "getPlantList")
         return  plantDao.getPlants()
     }
 

@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
-//构造参数中的plantListRepository 是数据处理类
+//构造参数中的plantListRepository 是数据提供类
 class PlantListViewModel(private val plantRepository: PlantRepository) : ViewModel() {
     companion object {
         val TAG = PlantListViewModel::class.java.simpleName
@@ -49,16 +49,6 @@ class PlantListViewModel(private val plantRepository: PlantRepository) : ViewMod
 
     fun getPlantsData(): Observable<List<Plant>> = plantListSubject.hide()
 
-    //使用LiveData
-    fun getPlantListByLiveData() {
-        viewModelScope.launch {
-            val data = withContext(Dispatchers.IO) {
-                plantRepository.getPlantList2()
-            }
-            plants.value = data
-        }
-    }
-
-    val plants: MutableLiveData<List<Plant>> = MutableLiveData()
+    val plants: LiveData<List<Plant>> = plantRepository.getPlantList2()
 
 }

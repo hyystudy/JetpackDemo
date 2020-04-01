@@ -16,6 +16,10 @@ class GardenPlantRepository private constructor(private val gardenPlantDao: Gard
     //query all planted gardenPlants
     fun getGardenPlants() = gardenPlantDao.getPlantedGardenPlants()
 
+    fun getGardenPlantsSingle() = gardenPlantDao.getPlantedGardenPlantsSingle()
+
+    fun getGardenPlantsFlowable() = gardenPlantDao.getPlantedGardenPlantsFlowable()
+
 
     fun isPlanted(plantId: String) = gardenPlantDao.isPlanted(plantId = plantId)
 
